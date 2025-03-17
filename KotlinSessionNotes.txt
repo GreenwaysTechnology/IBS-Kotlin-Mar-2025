@@ -644,3 +644,348 @@ fun main() {
     }
 }
 ...............................................................................................
+
+.....................................................................................
+				Functions
+.....................................................................................
+
+What is function?
+  The term function is derived from the mathmetics.
+  The function represents unit of execution
+  The function is building block of computer system itself.
+
+Types of functions?
+
+1.passive functions
+2.active functions
+
+Every program is running on another program called runtime/Process
+
+aJava programs are running on the another program called JVM.
+J
+VM is written in c language.
+
+JVM is just process just like other process running on operating system.
+
+Every Process has its own arch...
+
+Process has three seg.
+
+1.heap
+2.Stack 
+3.Program data
+
+Program data/method area
+........................
+  All passive instructions are stored.
+  Passive instructions means that instructions are not used by CPU and Main memory.
+
+All functions declrations are stored inside this area
+All Static variables are stored inside this area
+All literals(values) are stored inside this area
+
+....................................................................................
+			 Runtime Represention of functions
+...................................................................................
+
+In Programs, runtime representation means, which should be accessed by CPU,Memory should be allocated inside main memory.
+
+Every functions must be allocated on RAM, so that it can be accessed by CPU.
+
+//declaration
+
+function main(){ 
+
+}
+
+main()---> we have to allocate memory on RAM--->
+
+When function is called, the function is pushed into stack.
+
+Stack is just first in last out data structure.
+
+Once the function gets pushed into stack, The process allocates memory.
+
+This memory is called as "Stack Frame"
+
+After execution of statck frame it is removed from memory, so that other stack frames will start 
+
+sayHello----frame is created---frame is running---frame is removed
+sayHai -----frame is created ---frame is runnin-frame is removed
+
+.....................................................................................
+			  Kotlin functions
+....................................................................................
+
+Kotlin supports different functions
+
+1.normal functions/Standard functions
+2.infix function
+3.local function
+4.member function
+5.Tail Recursive function
+6.inline function
+7.suspend function
+8.operator function
+9.lambda functions
+10.Single Expression function
+
+
+
+1.Normal functions/Standard functions
+
+ -how to declare function
+ -how to invoke 
+ -args and parameters
+   -Named,optional args
+ -return types  and values
+
+
+
+package com.ibs.kotlin.functions
+
+//function declaration
+fun sayHello() {
+    println("Hello")
+}
+
+fun add(){
+    println("Add Function")
+    var a =10
+    var b =20
+    var c = a + b
+    println("c $c")
+}
+fun main() {
+   //function invocation
+    sayHello()
+    add()
+}
+
+			 Function args and parameters
+...................................................................................
+
+What is arg?
+ Arg is place holder which holds values
+What is parameter?
+ Parameter is nothing but value what we pass.
+package com.ibs.kotlin.functions.args
+
+fun sayHello(name: String) {
+    println("Hello $name")
+}
+
+fun add(a: Int, b: Int) {
+    var c = a + b
+    println("Result is $c")
+}
+
+fun main() {
+    sayHello("Subramanian")
+    add(10, 10)
+}
+Default Args:
+  In java parameters must be passed for given args,
+  In Kotlin you can skip parameters, we can provide default args
+
+package com.ibs.kotlin.functions.args
+
+fun sayHello(name: String = "") {
+    println("Hello $name")
+}
+
+fun add(a: Int = 0, b: Int = 0) {
+    var c = a + b
+    println("Result is $c")
+}
+
+fun main() {
+    sayHello("Subramanian")
+    add(10, 10)
+    //without any parameter
+    add()
+    add(a = 10, b = 20)
+    add(b = 90, a = 89)
+}
+
+...................................................................................
+			Positional and Named Parameters
+....................................................................................
+
+In java parameters are position based
+
+void add(int a,int b){
+
+}
+add(10,10)
+void format(String str,boolean b,int a){
+
+}
+format("sss",true,10)
+
+Kotlin also supports positions based.
+
+eg
+fun add(a: Int = 0, b: Int = 0) {
+    var c = a + b
+    println("a $a b $b c $c")
+}
+
+fun main() {
+    add()
+    add(10,20)
+}
+...................................................................................
+			 Named Parameters
+...................................................................................
+You can pass values in any order.
+Named args also can have default values.
+You can skip values any where in the arg list.
+
+...................................................................................
+			 Named Parameters
+...................................................................................
+You can pass values in any order.
+Named args also can have default values.
+You can skip values any where in the arg list.
+
+
+fun format(str: String = "str", normalizeCast: Boolean = false, upperCaseFirstLetter: Char = 'A') {
+    println("Str $str noralizeCase ${normalizeCast} UpperCaseFirstLetter ${upperCaseFirstLetter}")
+}
+
+fun main() {
+    format();
+    //named parameters
+    format(str = "Hello", upperCaseFirstLetter = 'B', normalizeCast = true)
+    format(normalizeCast = false);
+}
+
+
+Positional and Named Parameters
+
+1.function does not have default values -  Optional parameter
+2.function with default value- Named parameter
+..............................................................................................
+				 Any Type and Functional Arg
+..............................................................................................
+
+In java "java.lang.Object"  can take any type of object
+
+void accept(a:Object){
+
+}
+
+accept("Hello")
+accept(1100)
+accept(new Date())
+accept(new Employee())
+
+In Kotlin instead of Object we have Super Object is "Any"
+
+     "The root of the Kotlin class hierarchy. Every Kotlin class has Any as a superclass"
+
+
+package com.ibs.kotlin.functions.args
+
+fun accept(a: Any) {
+    println(a)
+}
+
+fun main() {
+    accept("Hello")
+    accept(100)
+    accept(39.34)
+    accept(true)
+}
+....................................................................................
+			 Return values and Type
+....................................................................................
+
+In Kotlin function returns any object if function does return any thing which is Called "Unit".
+
+The "Unit" is type with only One Value- Unit
+
+package com.ibs.kotlin.functions.returns
+
+//exclit Unit
+fun doStuff(): Unit {
+    println("Hello")
+    return
+}
+//implicit Unit
+fun doSomething() {
+    println("Unit")
+    return
+}
+
+fun main() {
+    doStuff()
+    doSomething()
+}
+
+Other Types:
+package com.ibs.kotlin.functions.returns
+
+fun sayHello(name: String = "Ram"): String {
+    return "Hello $name"
+}
+
+fun multiply(a: Int = 0, b: Int = 0): Int {
+    return a * b
+}
+
+fun main() {
+    var res = sayHello("Subramanian")
+    println(res)
+    println(multiply(b = 90, a = 80))
+}
+....................................................................................
+....................................................................................
+			 Single-Expression functions
+....................................................................................
+When a function returns a "single Expression" no more body, the curly braces and return statement can be omitted and body can be specified after = symbol
+return type can be ommitted, which is typeinferenced 
+
+package com.ibs.kotlin.functions.singleexpression
+
+//normal syntax
+//fun sum(a: Int = 0, b: Int = 0): Int {
+//    return a * b
+//}
+//single Expression Function
+//fun sum(a: Int = 0, b: Int = 0): Int = a * b
+//Omit the return type
+fun sum(a: Int = 0, b: Int = 0) = a * b
+fun display(name: String = "") = "Hello $name"
+
+fun main() {
+    println(sum(10, 10))
+    println(display("Subramanian"))
+}
+..............................................................................................
+....................................................................................
+			 Variable args-Var args
+...................................................................................
+
+In order to receive variable args, kotlin provides a keyword "vararg".
+package com.ibs.kotlin.functions.varargs
+
+fun logger(vararg args: String) {
+    for (arg in args) println(arg)
+}
+
+fun main() {
+    logger("Employee.kt", "Warning", "Save Method is called")
+    logger("Employee.kt", "Error", "remove Method is called", "501")
+}
+
+
+
+
+
+
+
+
+
+
