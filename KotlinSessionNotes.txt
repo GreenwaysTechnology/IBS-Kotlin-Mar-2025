@@ -93,7 +93,7 @@ Language is classified based on types(data types)
   var a =10
   a ="hello"
 
-              Kotlin is dynamic(type inference) and strongly typed language.
+             Kotlin is dynamic(type inference) and strongly typed language.
 			var a=10
 			a="hello"
 ...................................................................................
@@ -643,8 +643,6 @@ fun main() {
         if (x > 5) break
     }
 }
-...............................................................................................
-
 .....................................................................................
 				Functions
 .....................................................................................
@@ -835,14 +833,7 @@ fun main() {
     add()
     add(10,20)
 }
-...................................................................................
-			 Named Parameters
-...................................................................................
-You can pass values in any order.
-Named args also can have default values.
-You can skip values any where in the arg list.
-
-...................................................................................
+..................................................................................
 			 Named Parameters
 ...................................................................................
 You can pass values in any order.
@@ -872,7 +863,7 @@ Positional and Named Parameters
 
 In java "java.lang.Object"  can take any type of object
 
-void accept(a:Object){
+void accept(Object a){
 
 }
 
@@ -980,12 +971,577 @@ fun main() {
     logger("Employee.kt", "Error", "remove Method is called", "501")
 }
 
+.....................................................................................
+			null
+.....................................................................................
+
+What is null?
+  
+int a =10; 
+String str =null
 
 
 
+10 is value (literal)
+null ? value ----> it is value
+
+Different languages implement null differently.
+
+In java null is Object. NULL object.
+
+NULL Object means , you dont have valid Object of that Type.
+
+if you access any property on Null Object , It will throw error- NullPointerException.
 
 
+if NullPointer Exception occurs, the system crashes.
+
+Handling null in java like language is really challanging....
+...................................................................................
+			How to handle  Null in Kotlin
+...................................................................................
+Null reference/Object is unavoidable in any object oriented systems, handling null is more chaallange.
+
+How to handle null very safely?
+
+  Kotlin like languages now a days handles null very efficiently without crashing system.
+  Kotlin handles null positiviely, if there is null, we can give alternate values.
+
+In java , the methods,properties access are verfied during run time only.
+String str =null
+str.trim() 
+
+In java , null is verified during runtime.
+................
+
+In Kotlin "null" is verified during compile time itself, so that your code will be more strong and safe during development and production
+
+App never crashes because of null errors.
+....................................................................................
+....................................................................................
+			 Kotlin and null
+.....................................................................................
+
+1.Kotlin never allows null by default.
+
+package com.ibs.kotlin.nulls
 
 
+fun main() {
+    var name:String = null 
+}
+The code causes compile time error
+ "Null can not be a value of a non-null type String"
+  
+package com.ibs.kotlin.nulls
 
 
+fun main() {
+    //var name:String = null
+    var name: String
+    println(name)
+}
+The code also causes compile error.
+ because when declaration of variable , no error, but when access the variable ,it will give you error.
+
+As of now the variable must have been initialized to some string.
+
+What if i want null to be initalized to a variable. How to declare null in kotlin?
+
+What if i want "nullable" value?
+
+"nullable" means the variable can have null.
+
+var variableName:Type? = null
+
+package com.ibs.kotlin.nulls
+
+
+fun main() {
+    //var name:String = null
+    var name: String? = null
+    println(name)
+}
+....................................................................................
+			What if i access any property on null
+....................................................................................
+package com.ibs.kotlin.nulls
+
+
+fun main() {
+    var name:String? = null 
+    println(name.length)
+}
+this code causes compile time error, you cant access any property on null reference.
+
+
+Way 1: Handling null using java style
+
+package com.ibs.kotlin.nulls
+
+
+fun main() {
+    var name: String? = null
+    //Ways to handle null
+    //Way 1: Handling null using java style
+    if (name != null) {
+        println(name.length)
+    }
+}
+
+Way 2: Kotlin style "Using safe navigation operator"
+
+variable?.property
+  here if variable has null , then output would be "null" string representation.
+
+package com.ibs.kotlin.nulls
+
+
+fun main() {
+    var name: String? = null
+    //Ways to handle null
+    //Way 1: Handling null using java style
+    if (name != null) {
+        println(name.length)
+    }
+
+    //Way 2: Kotlin style "Using safe navigation operator
+    println(name?.length)
+}
+
+Way 3: Kotlin style "Using Elvis Operator" : if there is null,if you want some default  instead of "null" string.
+
+
+package com.ibs.kotlin.nulls
+
+
+fun main() {
+    var name: String? = null
+       //Way 3: Kotlin style "Using Elvis Operator" : if there is null,if you want some default
+    // instead of "null" string.
+     var length = name?.length ?: 0
+    println("String length is $length")
+}
+
+way 4: kotlin style: for some reasons,"if you want Runtime Exception" How to throw NullPointerException !! assertion operator which throws runtime exception.
+
+
+package com.ibs.kotlin.nulls
+o
+
+fun main() {
+    var name: String? = null
+    //way 4: kotlin style: for some reasons,"if you want Runtime Exception" How to        //throw NullPointerException
+    //!! assertion operator which throws runtime exception.
+    println("${name!!.length}")
+}
+
+.....................................................................................
+			Functions and Nullable values
+...................................................................................
+
+package com.ibs.kotlin.nulls
+
+fun sayHello(name: String?="") {
+    println("Hello ${name?.toString() ?: ""} and its length is ${name?.length ?: 0}")
+}
+
+fun main() {
+    sayHello("Subramanian")
+    sayHello(null)
+}
+.....................................................................................
+			  Functional Programming
+.....................................................................................
+
+What is functional Programming?
+  Functional programming is one of the programming style to build apps...
+
+Programming Principles:
+1.Procedural programming - c
+2.Object oriented programming - c++,java,C#....
+3.functional programming.
+
+Functional programming principles and patterns implemented from the mathmetics called  "Lambda calculus".
+
+Lambda calculus (also written as λ-calculus) is a formal system in mathematical logic for expressing computation based on function abstraction and application using variable binding and substitution.
+ It is a universal model of computation that can be used to simulate any Turing machine. 
+
+"The word function derived from calculus"
+
+According to calculus function means which accept as input, and return result.
+
+calculus talks about how to build "Abstract Computer"
+
+calculus was introduced by matmetician called "Alonzo Chruch in the 1930".
+
+Based on calculs , the first programming language was created called "LISP"
+
+Lisp, an acronym for list processing, is a functional programming language that was designed for easy manipulation of data strings. As one of the oldest programming languages still in use, Lisp offers several different dialects and has influenced the development of other languages.
+
+Lambda Calculs implementation languages:
+........................................
+1.Lisp
+2.CommonLisp
+3.Clojure - Lisp for JVM
+4.Haskell
+5.Scheme
+6.Javascript
+7.JVM languages
+   - java 8 on wards
+   - Groovy
+   - Scala
+   - Kotlin 
+   - Clojure
+
+Functional Programming principles(calculus Basic):
+..................................................
+
+1.Functions are first class Citizens
+2.Referetial transparency
+3.Pure functions
+   Side effects, immutablity
+4.Recurrsive functions rather than loops.
+
+....................................................................................
+			 Purely functional and functional style
+....................................................................................
+
+Purely functional programming language means, the language implements 100% all fp principles
+Functional style programming language means, partitial principles are implemented.
+
+"Kotlin is functional style language".
+
+Kotlin functional programming implementations:
+...............................................
+
+1.Functions are first class Citizens
+
+ What is first class citizen?
+	
+  Functions are passed around(in ,out)
+
+This means the language supports passing function as parameter to another function,returing them as values from another function, and assigning them to variables or storing them in data structure.
+
+"functions are literal , means that functions are value like int,double,String"
+
+var a=10
+ here a is variable
+ here 10 is value(literal)
+
+in kotlin functions are treated like 10
+
+var myTask = fun delay(){}
+
+Higher order functions:
+.......................
+	First class functions are necessity for the functional programming style, in which the use of higher order functions is standard practice.
+
+According to calculus mathmetics, higher order function is a function that does the following things
+
+1.Takes one or more function as arg
+2.Returns a function as its result.
+
+Can i say the below fun is higher order function or not?
+
+fun map(){
+
+}
+No , Because it does not follow the thumb rule of hof.
+.....................................................................................
+			Since Kotlin Static Typed language, we need to tell the 
+				"Type of function Itself"
+....................................................................................
+
+fun map(variableName:FunctionType){
+
+}
+In Kotlin, every thing is object, FunctionType itself is object behind the scene.
+....................................................................................
+			  Kotlin Function Type syntax
+....................................................................................
+
+Note: T means Type
+
+1.(T)->T
+ eg:
+  (Int)->Int
+  (Int)->String
+
+2.(T1,T2)-T3
+  (Int,Int)->Int
+  (String,Int)->String
+
+3.(T)->Unit
+  (Int)->Unit
+  ()->Unit
+
+fun map((T)->T){
+
+}
+
+Rules:
+ 1.All function tyes must have a parenthesized types list and return type
+ 2.Function type can be optinally have an additional receiver type, which is represented in "." notation
+
+  "ReceiverType".(B,C)->D
+eg:
+   A.(B,C)->D
+
+A - Receiver Object
+B,C -args
+D-Return type
+
+3.Incase of async code,
+
+suspend A.(B,C)->D
+suspend (B,C)->D
+
+Nullable and function args:
+
+((A,B)->C)?
+(a.(B,C)->D)?
+.....................................................................................
+
+Function Literals:
+...................
+
+ As we dicussed already functions are literals/values, can be stored into a variable.
+
+ Since function stored inside variable, that variable can be used to invoke that function.
+
+
+Storing function into a variable (function as literal)
+
+var a:Int =10
+
+here a is variable, Int is type, 10 is value (literal),var is keyword
+in the similar way we assign function to a variable.
+
+
+var sayHello: () -> Unit = fun() {
+    println("Hello fun")
+}
+
+here sayHello is just variable
+: is separator
+()-> Unit is "Function Type like String"
+fun(){} - Value /literal - function literal
+
+package com.ibs.kotlin.fpprinciples
+
+//declare variable with expclit type
+var hello: String = "hello"
+
+//function declaration with explcit type
+var sayHello: () -> Unit = fun() {
+    println("Hello fun")
+}
+
+fun main() {
+    println(hello)
+    sayHello()
+}
+
+With Type inference
+..................
+package com.ibs.kotlin.fpprinciples
+
+//declare variable with expclit type
+var hello: String = "hello"
+//declare variable with implicit type ; type inference
+var firstName ="Subramanian"
+
+//function declaration with explcit type
+var sayHello: () -> Unit = fun() {
+    println("Hello fun")
+}
+//function declaration with implcit type : type inference
+var sayHai = fun() {
+    println("hai")
+}
+
+
+fun main() {
+    println(hello)
+    sayHello()
+    sayHai()
+}
+
+Anonymous function:
+..................
+ Function without name.
+ fun() {
+    println("hai")
+}
+
+
+functions without type annotation: type inference:
+
+package com.ibs.kotlin.fpprinciples
+
+
+//Function with type inference
+var greet = fun() {
+    println("Greet")
+}
+
+fun main() {
+    greet()
+}
+
+Anonymous Function with Parameters:
+
+
+package com.ibs.kotlin.fpprinciples
+
+
+//With type
+//var add: (Int, Int) -> Int = fun(a: Int, b: Int): Int {
+//    return a + b
+//}
+//without Type
+//var add = fun(a: Int, b: Int):Int {
+//    return a + b
+//}
+//Single function expression with anonymous function
+var add = fun(a: Int, b: Int) = a + b
+
+fun main() {
+    println(add(10, 3));
+}
+
+Nullable parameters and Anonymous function:
+.............................................
+//With type
+//var add: (Int, Int) -> Int = fun(a: Int, b: Int): Int {
+//    return a + b
+//}
+//without Type
+//var add = fun(a: Int, b: Int):Int {
+//    return a + b
+//}
+//Single function expression with anonymous function
+var add = fun(a: Int, b: Int) = a + b
+
+fun main() {
+    println(add(10, 3));
+}
+
+Nullable parameters and Anonymous function:
+.............................................
+package com.wipro.kotlin.functionalprogramming
+
+//var accept: (String?) -> String? = fun(message: String?): String? {
+//    return message
+//}
+//var accept = fun(message: String?): String? {
+//    return message
+//}
+var accept: ((String) -> String)? = fun(message: String): String {
+    return "Hello $message"
+}
+var display = fun(message: String?): String? {
+    return "Hello $message"
+}
+
+fun main() {
+    //println(accept("Hello"));
+    accept?.invoke("Hello")
+    display?.invoke("Hello");
+    display?.invoke(null)
+}
+.......................................................................................
+			 Higher order functions
+/////////////////////////////////////////////////////////////////////////////////////
+
+		
+Function is passed as parameter to another function.
+
+Before understanding higher order function, we need to understand, how parameters are passed.
+
+
+package com.ibs.kotlin.fpprinciples.hof
+
+
+fun add(a: Int, b: Int): Int {
+    return a + b
+}
+
+fun main() {
+    //How to pass values to the function?
+    //hard coded value
+    println(add(10, 10))
+    //via variables
+    var x = 10
+    var y = 20
+    println(add(x,y))
+}
+
+Simple Higher order function:
+
+
+package com.ibs.kotlin.fpprinciples.hof
+
+//hof : function as parameter to another function
+fun sayGreet(action: () -> Unit) {
+    //invoke that function
+    action()
+    action.invoke()
+}
+
+fun main() {
+//    var myFun = fun() {
+//        println("Hello")
+//    }
+    var myFun: () -> Unit = fun() {
+        println("Hello")
+    }
+    sayGreet(myFun)
+    //passing function directly
+    sayGreet(fun() {
+        println("Hello , How are you")
+    })
+}
+Higher orders with args and paramters:
+.....................................
+package com.ibs.kotlin.fpprinciples.hof
+
+fun adder(action: (Int, Int) -> Unit) {
+    action(10, 10)
+}
+
+fun main() {
+    adder(fun(a: Int, b: Int): Unit {
+        var c = a + b
+        println(c)
+    })
+}
+Named Parameters with Higher order function:
+............................................
+package com.ibs.kotlin.fpprinciples.hof
+
+fun login(userName: String = "foo", password: String = "bar", resolve: (String) -> Unit, reject: (String) -> Unit) {
+    if (userName == "admin" && password == "admin")
+        resolve("Login success")
+    else
+        reject("Login failed")
+}
+
+fun main() {
+    login(
+        userName = "admin",
+        password = "admin",
+        resolve = fun(status) { println(status) },
+        reject = fun(err) { println(err) }
+    )
+
+    login(
+        resolve = fun(status) { println(status) },
+        password = "admin",
+        reject = fun(err) { println(err) },
+        userName = "admin"
+    )
+
+
+}
