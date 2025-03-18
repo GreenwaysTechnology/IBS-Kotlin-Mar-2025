@@ -1545,3 +1545,403 @@ fun main() {
 
 
 }
+.............................................................................................
+
+....................................................................................
+		    			Lambdas
+....................................................................................
+
+What is Lambda?
+ The term Lambda is derived from Lambda calculs.
+
+Lambdas are function literals only, can be assigned to a variable, passed around(in and around).
+
+How to declare Lambda expression?
+
+var or val variableName:FunctionType = {arg->functionbody}
+
+Rules:
+1.A lambda expression is always surroned by {}
+2. Parameter declarations in the full synatatic form go inside curly braces and have optional type annotations.
+4.The body of the function will go after "->"
+5.The infered return type is not "Unit" by default, the last line (possibly) expression inside the lambda body is treated as the return value.
+6.Lambda can be passed to another function as parameter or Lambdas can be passed to another lambda as parameter.
+
+Simple Lambda
+package com.ibs.kotlin.fpprinciples.lambdas
+
+//formal function
+fun add(a: Int = 0, b: Int = 0): Int {
+    return a + b
+}
+
+//single function expression
+fun addExpression(a: Int = 0, b: Int = 0) = a + b
+
+//function as literal : default values can't be initialized in the function literal
+var addFunLiteral = fun(a: Int, b: Int): Int {
+    return a + b
+}
+
+//lambdas
+var addLambda = { a: Int, b: Int ->
+    //body of the function
+    println("lambda example")
+    // return  a +b invalid
+    a + b //last line of the function to be treated as return value and also type is infered
+}
+
+fun main() {
+    println(add())
+    println(addExpression())
+    println(addFunLiteral(33, 333))
+    println(addLambda(1, 2))
+}
+
+.....................................................................................
+			Lambda Complex syntax
+.....................................................................................
+
+package com.ibs.kotlin.fpprinciples.lambdas
+
+var login = { userName: String, password: String ->
+    if (userName == "admin" && password == "admin")
+        "Login Success"
+    else
+        "Login Failed"
+}
+
+fun main() {
+    println(login("admin", "admin"))
+}
+..................................................................................
+		Lambda with Single Paramter - it variable
+...................................................................................
+"it" is implicit variable can be used in lambda to replace single explicit args
+s
+
+package com.ibs.kotlin.fpprinciples.lambdas
+
+//var sayMyName = { name:String ->
+//    "Hello ${name}"
+//}
+var sayMyName: (String) -> String = {
+    println("Hello")
+    print("how are you")
+    "Hello ${it}"
+}
+var doubleIt: (Int) -> Int = { it * 2 }
+
+
+fun main() {
+    println(sayMyName("Subramanian"))
+    println(doubleIt(10))
+}
+
+...................................................................................
+			Higher order functions and Lambda
+...................................................................................
+How to pass lambda as parameter to another function or another lambda?
+
+package com.ibs.kotlin.fpprinciples.lambdas
+
+fun delay(action: () -> Unit) {
+    action.invoke()
+}
+
+fun main() {
+    //passing regular function as parameter
+    delay(fun() {
+        println("Hello")
+    })
+    //passing lamabd
+    var task = {
+        println("Hello task")
+    }
+    delay(task)
+    //passing lambda directly to the function
+    delay({
+        println("Hello how are you task")
+    })
+}
+
+
+.....................................................................................
+How lambda can accept another lambda as parameter?
+
+
+package com.ibs.kotlin.fpprinciples.lambdas
+
+var async = { action: () -> Unit ->
+    action()
+}
+
+fun main() {
+    var task = {
+        println("task-lambda")
+    }
+    async(task)
+    async({
+        println("lambda task 1")
+    })
+    async(fun() {
+        println("delay")
+    })
+
+}
+
+.....................................................................................
+		 Higher order function takes more parameters(mixed)
+
+package com.ibs.kotlin.fpprinciples.lambdas.dsl
+
+fun compute(no: Int = 0, action: () -> Unit) {
+    println("No $no")
+    action()
+}
+
+fun main() {
+    compute(10, { println("compute") })
+    compute {
+        println("hello")
+    }
+}
+.............................................................................................
+DSL syntax for more parameters:
+...............................
+When you pass lambda as second or last parameter, the first parameter can be enclosed with "()" and second parameter passed passed directly.
+
+Note: lambda should be always last parameter.
+
+
+package com.ibs.kotlin.fpprinciples.lambdas.dsl
+
+import kotlin.concurrent.thread
+
+fun compute(no: Int = 0, action: () -> Unit) {
+    println("No $no")
+    action()
+}
+
+fun filterBy(
+    order: String = "asc",
+    name: String = "name",
+    no: Int = 0,
+    action: () -> Unit
+) {
+    println("Order $order Name $name No $no")
+    action()
+}
+
+fun main() {
+    compute(10, { println("compute") })
+    //dsl syntax
+    compute(23) { println("compute") }
+    //dsl syntax with default value
+    compute { println("compute") }
+
+    filterBy { println("Filter callback") }
+    filterBy(name = "Subramanian", order = "asy", no = 1) {
+        println("Filter callback with values")
+    }
+    //Thread creation using lambda
+    thread(start = true, name = "MyThread1", priority = 2) {
+        Thread.sleep(2333)
+
+        println("${Thread.currentThread().name}")
+    }
+
+    thread(start = true, name = "MyThread2", priority = 1) {
+        println("${Thread.currentThread().name}")
+    }
+
+    thread(start = true, name = "MyThread3", priority = 2) {
+        println("${Thread.currentThread().name}")
+    }
+}
+....................................................................................
+			_ notation in lambda
+...................................................................................
+
+
+package com.ibs.kotlin.fpprinciples.lambdas.dsl
+
+//if you want to skip some parameters/args we can use _
+fun doCompute(a: Int = 0, b: Int = 0, action: (Int, Int) -> Unit) {
+    action(a, b)
+}
+
+fun main() {
+    doCompute(b = 233) { _, b -> println(b) }
+}
+
+.....................................................................................
+			 Object oriented programming in kotlin
+.....................................................................................
+
+
+How to declare classes in kotlin and how to create object?
+
+
+package com.ibs.kotlin.oo
+
+class Customer {
+    //instance variables
+    var id: Int? = null
+    var firstName: String? = null
+    var lastName: String? = null
+    var status: Boolean = false
+}
+
+fun main() {
+    //instance creation : no new keyword to create instance
+    //customer is reference variable,Customer() is constructor call
+    val customer = Customer()
+    //access properties
+    println("Id ${customer.id}")
+    println("Name ${customer.firstName} ${customer.lastName}")
+    println("Status ${customer.status}")
+}
+...................................................................................
+			 State(data/properties) initalization
+...................................................................................
+
+1.inside class
+2.outside class after object creation
+3.during object creation- constructors
+
+Inside Class:
+package com.ibs.kotlin.oo
+
+//class Customer {
+//    //instance variables
+//    var id: Int? = null
+//    var firstName: String? = null
+//    var lastName: String? = null
+//    var status: Boolean = false
+//}
+
+
+class Customer {
+    //instance variables
+    var id: Int? = 0
+    var firstName: String? = "Subramanian"
+    var lastName: String? = "Murugan"
+    var status: Boolean? = true
+
+}
+
+fun main() {
+    //instance creation : no new keyword to create instance
+    //customer is reference variable,Customer() is constructor call
+    val customer = Customer()
+    //access properties
+    println("Id ${customer.id}")
+    println("Name ${customer.firstName} ${customer.lastName}")
+    println("Status ${customer.status}")
+}
+
+Outside class:
+package com.ibs.kotlin.oo
+
+//class Customer {
+//    //instance variables
+//    var id: Int? = null
+//    var firstName: String? = null
+//    var lastName: String? = null
+//    var status: Boolean = false
+//}
+
+
+class Customer {
+    //instance variables
+    var id: Int? = 0
+    var firstName: String? = "Subramanian"
+    var lastName: String? = "Murugan"
+    var status: Boolean? = true
+
+}
+
+fun main() {
+    //instance creation : no new keyword to create instance
+    //customer is reference variable,Customer() is constructor call
+    val customer = Customer()
+    customer.id = 1
+    customer.firstName = "Geetha"
+    customer.lastName = "Subramanian"
+    customer.status = true
+    println("Id ${customer.id}")
+    println("Name ${customer.firstName} ${customer.lastName}")
+    println("Status ${customer.status}")
+}
+....................................................................................
+			 init block
+...................................................................................
+
+init is a special block used to initalize the variables and any code.
+
+A Single class can have multiple init block but recommened having only one init block.
+
+init blocks are getting executed the order in which it has been declared.
+
+package com.ibs.kotlin.oo.stateinitblock
+
+class Employee {
+    //instance variables
+    var id: Int? = null
+    var firstName: String? = null
+    var lastName: String? = null
+    var status: Boolean? = null
+    init {
+        id = 1
+        firstName = "foo"
+        lastName = "bar"
+        status = false
+    }
+    init {
+        println("init 2")
+    }
+}
+fun main() {
+    //customer is reference variable
+    //val customer: Customer = Customer()
+    val employee = Employee()
+
+    println("Id ${employee.id}")
+    println("Name ${employee.firstName} ${employee.lastName}")
+    println("Status ${employee.status}")
+
+}
+.....................................................................................
+			Setter and getters
+.....................................................................................
+
+According to java bean spec, java needs to have setters and getters
+
+According to kotlin setters and getters are implicit.
+
+Can we use getters and setters in kotlin?
+
+Yes!
+
+Syntax:
+  var <PropertyName>:[PropertyType] = [<property_initalizer>]
+  getter
+  setter
+package com.ibs.kotlin.oo.settersgetters
+
+class User {
+    var name: String? = null
+        set(value) {
+            field = "Mr/Mrs $value"
+        }
+        get() = field?.uppercase()
+
+}
+
+fun main() {
+    val user = User()
+    user.name = "Subramanian"
+    println(user.name)
+}
+
