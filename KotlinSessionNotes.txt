@@ -2678,7 +2678,438 @@ fun main() {
     dog.saveAnimals()
     dog.walk()
 }
+..................................................................................
+...................................................................................
+				Encapuslation
+...................................................................................
+
+How to share code and how to restrict code from one class into class or one package into package, one module into another module.
+
+modifiers:
+private,protected,internal and public.
+
+public :
+ It is default modifer
+
+class Hello {}
+
 ..
+package com.wipro.kotlin.oo.encapsulation
+
+//public class
+//public class Hello {
+//
+//}
+class Hello {
+
+}
+//public function
+//public fun sayHello(){
+//
+//}
+fun sayHello() {
+    println("hello")
+}
+//public var name = "Subramanian"
+
+fun main() {
+    sayHello()
+}
+
+
+package com.wipro.kotlin.oo.encapsulation.subpack
+
+import com.wipro.kotlin.oo.encapsulation.Hello
+
+fun main() {
+    var hello = Hello()
+}
+
+private:
+package com.wipro.kotlin.oo.encapsulation
+
+private class User {
+
+}
+
+private fun update() {
+
+}
+
+private var password = "foo"
+
+fun main() {
+    var user = User()
+}
+
+package com.wipro.kotlin.oo.encapsulation.subpack
+
+import com.wipro.kotlin.oo.encapsulation.Hello
+//import com.wipro.kotlin.oo.encapsulation.User
+fun main() {
+    var hello = Hello()
+//    var user = User ()
+}
+
+protected:
+ visibile inside class and its subclasses
+package com.wipro.kotlin.oo.encapsulation
+
+open class Animal {
+    protected open fun eat() {
+        println("animal eat")
+    }
+}
+
+package com.wipro.kotlin.oo.encapsulation.subpack
+
+import com.wipro.kotlin.oo.encapsulation.Animal
+import com.wipro.kotlin.oo.encapsulation.Hello
+
+//import com.wipro.kotlin.oo.encapsulation.User
+
+class Dog : Animal() {
+    //public is explicitly needed ; by default protected methods are private
+    public override fun eat() {
+        println("Dog eats")
+    }
+
+}
+
+fun main() {
+    var hello = Hello()
+//    var user = User ()
+    var mydog = Dog()
+    mydog.eat()
+}
+................
+
+internal:
+ In kotlin new modifier is added called internal, which is not supported in java.
+
+internal means that it will be available in the module. if any is declared with in the module scope, will be avaible within that module only. if you try to access from another module which will not be available.
+
+module: 
+  group of files that compiled togther.
+
+Module could be:
+An intellij Module
+A maven project
+A Gradle source set
+A set of files compiled with one invocation of the kotlinc Ant task
+
+Use case : 
+ we create multi module project...
+ if you delclare class,function,variable,interface with "internal keyword".
+
+
+package com.wipro.kotlin.oo.encapsulation
+
+internal class MyLib {
+
+}
+
+internal fun getVersion(): String {
+    return "Interal"
+}
+internal var copyRight = "google"
+
+package com.wipro.kotlin.oo.encapsulation.subpack
+
+import com.wipro.kotlin.oo.encapsulation.Animal
+import com.wipro.kotlin.oo.encapsulation.Hello
+import com.wipro.kotlin.oo.encapsulation.MyLib
+import com.wipro.kotlin.oo.encapsulation.getVersion
+
+//import com.wipro.kotlin.oo.encapsulation.User
+
+class Dog : Animal() {
+    //public is explicitly needed ; by default protected methods are private
+    public override fun eat() {
+        println("Dog eats")
+    }
+
+}
+
+fun main() {
+    var hello = Hello()
+//    var user = User ()
+    var mydog = Dog()
+    mydog.eat()
+
+    var mylib = MyLib()
+    getVersion()
+}
+..........................................................................................
+
+....................................................................................
+			 Packages
+...................................................................................
+
+What is package?
+  It is way to organize the code.
+
+package nameofthePackage
+
+//declarations
+private | public | internal | class  | fun | variable
+
+Types of packages:
+
+1.custom packages
+2.built in packages
+3.third party packages
+
+Built in packages:
+
+package 
+
+kotlin 
+  it is core package which is eq to java.lang package.
+Core functions and types, available on all supported platforms.
+
+kotlin.collections-datastructure
+kotlin.coroutines - async programming
+kotlin.concurrent - threading
+kotlin.io - for io operations
+
+etc...
+..........................................................................
+
+Core Package: Kotlin.
+
+Any:
+  It is root of every Kotlin class . which is eq to java.lang.Object
+  The root of the Kotlin class hierarchy. Every Kotlin class has Any as a superclass.
+
+Core apis of Any
+
+1.toString
+2.hashCode
+3.equals
+4.scope functions..
+
+toString:
+ returns string representation of object, by default "Any" class has logic, but you can override and give your own implementation
+
+package com.wipro.kotlin.oo.anyClass
+
+class Sample {
+
+}
+
+fun main() {
+    var sample = Sample()
+    println(sample.toString())
+}
+output:
+com.wipro.kotlin.oo.anyClass.Sample@6d311334
+
+package com.wipro.kotlin.oo.anyClass
+
+class Sample {
+    override fun toString(): String {
+        return "Sample"
+    }
+}
+
+fun main() {
+    var sample = Sample()
+    println(sample.toString())
+}
+
+hashcode:
+package com.wipro.kotlin.oo.anyClass
+
+class Sample {
+    override fun toString(): String {
+        return "Sample"
+    }
+
+    override fun hashCode(): Int {
+        return 334343
+    }
+}
+
+fun main() {
+    var sample = Sample()
+    println(sample.toString())
+    println(sample.hashCode())
+}
+
+
+equals
+package com.wipro.kotlin.oo.anyClass
+
+class Square(val side: Int) {
+    override fun equals(other: Any?): Boolean {
+        //is eq instanceof
+        if (other is Square) {
+            return other.side == side
+
+        }
+        return false
+    }
+}
+
+fun main() {
+    var square1 = Square(10)
+    var square2 = Square(10)
+    var isEqual = square1.equals(square2)
+    println(isEqual)
+
+    //== compares properties of object
+    var isEqual1 = square1 == square2
+    println(isEqual1)
+
+    // using === operator compares the location of object
+    var isEqual2 = square1 === square2
+    println(isEqual2)
+
+    var tmpSquare = square1
+    println(tmpSquare === square1)
+
+}
+
+== and equals called "Structural Equality"  - Object property verification
+=== is called "Reference Equal - Object address verification
+...............................................................................................
+				Data classes
+..............................................................................................
+....................................................................................
+		What if i want all methods of Any class override in sub classes
+.....................................................................................
+
+"Data class"
+
+ It is sole purpose is to hold data.
+
+Data classes hold standard functionality and some utility functions such as toString,hashcode,equals.
+
+package com.wipro.kotlin.oo.anyClass
+
+data class User(val name: String, val age: Int)
+
+fun main() {
+    var user = User("Subramanian", 18)
+    println(user.toString())
+    println(user.hashCode())
+    //clonning api
+    val newUser = user.copy(age = 43)
+    println(newUser)
+}
+.
+.....................................................................................
+		   		Sealed Classes
+...................................................................................
+
+Sealed classes and interfaces represent restricted class hierachies that provide more control over inheritance.
+
+All Direct subclasses of a sealed class are known at compile time.
+
+No other subclasses may appear outside a module within which the sealed classed is defined.
+
+Sealed classes are abstract by default, so it cant instantiated.
+
+package com.ibs.kotlin.oo.corepackages
+
+sealed class MyResult {
+    //child classes : unlike regular inheritance, sealed class encapuslate child classes.
+    data class Success(val resolve: String) : MyResult()
+    data class Failure(val reject: String) : MyResult()
+    class Loader : MyResult()
+}
+
+fun getSucess():MyResult {
+    return  MyResult.Success("Data is available")
+}
+
+fun getFailure(): MyResult {
+    return MyResult.Failure("Something is went wrong")
+}
+//all in one
+fun fetch(): MyResult {
+    var status = 200
+    if (status === 200)
+        return MyResult.Success("Response found")
+    return MyResult.Failure("failed")
+}
+
+fun main() {
+ var response = getSucess()
+    when(response){
+        is MyResult.Success -> {
+            println(response.resolve)
+        }
+        is MyResult.Failure -> {
+            println(response.reject)
+        }
+        else -> {
+            println("Loading")
+        }
+    }
+    var failure = getFailure()
+    when (failure) {
+        is MyResult.Success -> {
+            println(failure.resolve)
+        }
+        is MyResult.Failure -> {
+            println(failure.reject)
+        }
+        else -> {
+            println("Loading")
+        }
+    }
+    var res = fetch()
+    when (res) {
+        is MyResult.Success -> {
+            println(res.resolve)
+        }
+        is MyResult.Failure -> {
+            println(res.reject)
+        }
+        else -> {
+            println("Loading")
+        }
+    }
+}
+
+.....................................................................................
+			 Object expressions - Static Variables
+.....................................................................................
+package com.wipro.kotlin.oo.innerclasses
+
+class Employee {
+    var person = object {
+        var id = 1
+        var firstName = "Subramnaian"
+    }
+
+}
+
+//static variables
+object Message {
+    var Warning = "Warning"
+}
+
+
+fun main() {
+    var Person = object {
+        var id = 1
+        var firstName = "Subramnaian"
+    }
+    println(Person.id)
+    println(Person.firstName)
+    var emp = Employee()
+    println(Message.Warning)
+}
+
+
+
+
+
+
+
 
 
 

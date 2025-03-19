@@ -5,7 +5,6 @@ class Util {
         return "Hello"
     }
 }
-
 //extension functions are functions which are dynmically added into object during runtime
 fun Util.sayHai(): String {
     return "Hai"
