@@ -1944,4 +1944,755 @@ fun main() {
     user.name = "Subramanian"
     println(user.name)
 }
+.....................................................................................
+		How to initalize the properties during object creation
+.....................................................................................
+
+Constructors are sepcial methods are used to initalize the object propreties during object creation.
+
+Types of constructors:
+
+1.Primary constructor as default constructors
+2.Secondary constructor are used for overloading.
+
+
+Primary constructors:
+ Primary constructors are added as part of the class header
+
+class ClassName constructor(){}
+
+Note:
+  if the primary constructor does not have any annotations or visibility modifer,the constructor keyword can be ommitted.
+
+class ClassName(){}
+class ClassName [private | @someAnnotation] constructor (){}
+
+primary constructors does not have any code, if you want any special initalization, should be given inside "init" block.
+
+
+package com.wipro.kotlin.oo.constructors
+
+class Person constructor(var firstName: String = "", var lastName: String = "", var age: Int = 0) {
+
+}
+
+fun main() {
+    var person = Person();
+    println("Name ${person.firstName} ${person.lastName}")
+    println("Age ${person.age}")
+    person = Person(firstName = "Subramanian", lastName = "Murugan", age = 18)
+    println("Name ${person.firstName} ${person.lastName}")
+    println("Age ${person.age}")
+}
+
+with constructor keyword
+
+class Person(var firstName: String = "", var lastName: String = "", var age: Int = 0) {
+
+}
+
+fun main() {
+    var person = Person();
+    println("Name ${person.firstName} ${person.lastName}")
+    println("Age ${person.age}")
+    person = Person(firstName = "Subramanian", lastName = "Murugan", age = 18)
+    println("Name ${person.firstName} ${person.lastName}")
+    println("Age ${person.age}")
+}
+
+
+without {} braces:
+class Person(var firstName: String = "", var lastName: String = "", var age: Int = 0) 
+
+fun main() {
+    var person = Person();
+    println("Name ${person.firstName} ${person.lastName}")
+    println("Age ${person.age}")
+    person = Person(firstName = "Subramanian", lastName = "Murugan", age = 18)
+    println("Name ${person.firstName} ${person.lastName}")
+    println("Age ${person.age}")
+}
+...............................................................................
+			secondary constructors
+...............................................................................
+
+A class can have more than one constructors apart from the primary constructor, generally to mimic the over loading.
+
+Secondary constructors are declared with class using constructor keyword.
+
+Always we have to call primary constructor via "this()"
+
+ackage com.wipro.kotlin.oo.constructors
+
+class MyClass constructor() {
+    //secondary constructors
+    constructor(a: String) : this() {
+        println("Constructor with String arg")
+    }
+
+    constructor(a: Int) : this() {
+        println("Constructor with Int arg")
+    }
+
+    constructor(a: Double) : this() {
+        println("Constructor with Double arg")
+    }
+}
+
+class Employee constructor(var name: String = "", var salary: Double = 0.0) {
+    constructor(name: String) : this(name, 10.1) {
+        println("Constructor with String arg")
+    }
+}
+
+fun main() {
+    MyClass("hello")
+    MyClass(20)
+    MyClass(34.44)
+    var emp = Employee("Test", 22.333)
+    println(emp.name)
+    println(emp.salary)
+}
+.....................................................................................
+			class Members
+.....................................................................................
+
+A class contain many things
+
+1.constructors, and initalizers
+2.properties
+3.functions
+4.Nested and inner classes
+5.Object declarations 
+
+Functions inside class:
+package com.wipro.kotlin.oo.classes.functions
+
+class TodoService {
+    //functions
+    fun findAll(): String {
+        return "FindAll"
+    }
+
+    fun remove(id: Int) = "$id Removed"
+    var update = {
+        "updated"
+    }
+}
+
+fun main() {
+    var todoService = TodoService()
+    println(todoService.findAll())
+    println(todoService.update())
+    println(todoService.remove(333))
+}
+.....................................................................................
+			Can we extend any built in classes
+
+Yes, if you look at java, String is final class, meaning you cant extend the class, so you cant have your own String api.
+
+Thats where extension function comes into picture.
+
+
+package com.wipro.kotlin.oo.classes.extensions
+
+
+class Util {
+    fun sayHello(): String {
+        return "Hello"
+    }
+}
+
+//extensions:
+fun Util.sayHai(): String {
+    return "Hai"
+}
+
+//extensions with string
+fun String.add(name: String): String {
+    //kotlin provides this keyword to access receiver type
+    return this + name
+}
+
+fun Int.myadd(no1: Int): Int {
+    return this.plus(no1)
+}
+
+//Extension Properties
+val Util.greetings: String
+    get() = "Extension property"
+
+val String.city: String
+    get() = "Coimbatore"
+
+fun main() {
+    var util = Util()
+    println(util.sayHello())
+    println(util.sayHai())
+    var str: String = "Hello";
+    var name = "Subramanian"
+    //str is receiver type
+    println(str.add(name));
+    var number = 100
+    println(number.myadd(22))
+
+    var n = 10
+    println(n.plus(12))
+
+    //Extension property access
+    println("".city)
+    println(util.greetings)
+}
+.....................................................................................
+			   infix functions
+.....................................................................................
+
+What is infix function?
+
+  functions are marked with infix keyword called "infix functions"
+  Infix functions are used to create DSL based code, we can omit the parentheses
+
+class Greeter {
+    infix fun sayHello(name: String) {
+        println("$this $name")
+    }
+}
+
+val greet = Greeter()
+greet.sayHello('eee')
+
+greet saHello('ee')
+
+greet saHello 'ee'
+
+"hello" indexof 1
+
+Rules:
+1.It must be member function or extension function
+2.They must have single parameter
+3.The parameter must not accept var args and must have no default value.
+
+package com.wipro.kotlin.oo.classes.infixnotation
+
+class Greeter {
+    infix fun sayHello(name: String) {
+        println("$this $name")
+    }
+}
+infix fun Greeter.sayHai(name:String) {
+    println("$this $name")
+
+}
+
+fun main() {
+    var greeter = Greeter()
+    greeter.sayHello("Hello")
+    greeter sayHello "Hello"
+    greeter sayHai "hai"
+}
+}
+....................................................................................
+			  inline functions
+....................................................................................
+
+What is inline?
+   By inserting the function code at the address of each function call, there by saving the overhead of a function.
+	
+		"copy and paste function into calling place"
+
+
+Regular functions:
+
+fun foo(){
+  bar()
+}
+fun bar(){
+
+}
+
+foo()------stack frame is created------bar()-------stackframework is created
+
+Source code
+
+fun foo(){
+  bar()
+}
+inline fun bar(){
+  for(var i=0; i<1000){
+     println("computing"
+  }
+}
+
+compilter
+fun foo(){
+   for(var i=0; i<1000){
+     println("computing"
+  }
+}
+inline fun bar(){
+  for(var i=0; i<1000){
+     println("computing"
+  }
+}
+Inlining basically requesting the compiler to copy the (inlined) code at the calling place.
+
+Why?
+  Avoiding un necessary stack frame creations so that you can avoid tracking return address,args,values...
+
+Kotlin and inline functions:
+............................
+
+In Kotlin, the hof and lambdas are reprsented as objects behind the scene, same thing in java also.
+
+Since it is object takes some memory and increases the memory overhead if function gets called more no of times.
+
+In order to reduce memory overhead of such functions we can use the "inline" keyword
+
+"inline" requests the CPU not to allocate any memory for the function and simply the copy body of that function at the calling place.
+
+package com.wipro.kotlin.oo.classes.inlinefunc
+
+inline fun filter(condition: Boolean): Boolean {
+    return condition
+}
+
+fun main() {
+    //call inline function
+    for (count in 1..100) {
+        println(filter(true))
+    }
+}
+.....................................................................................
+		    IS-A - Inheritance
+....................................................................................
+
+Implementation of inheritance:
+
+1.concrete class
+2.interfaces
+3.abstract classes
+
+Kotlin and inheritance:
+.......................
+By default any class cant be inherited,All classes are freezed by default except abstract classes
+Inheritance is disabled by default
+
+In Kotlin all classes are "final class" by default
+
+
+class MyClass: BaseClass() {
+
+}
+package com.wipro.kotlin.oo.hierarchy
+
+//base class 
+class Animal {
+    
+}
+//child class
+class Dog : Animal {
+    
+}
+
+fun main() {
+    
+}
+Compile time error:
+ This type is final, so it cannot be inherited from
+
+What if i want to make inheritance?
+ "just" use the keyword called "open" infront of class
+
+package com.wipro.kotlin.oo.hierarchy
+
+//base class
+open class Animal {
+
+}
+//child class
+class Dog : Animal() {
+
+}
+
+fun main() {
+
+}
+
+eg:
+package com.wipro.kotlin.oo.hierarchy
+
+//base class
+open class Animal {
+    init {
+        println("Animal constructor is running")
+    }
+}
+
+//child class
+class Dog : Animal() {
+    init {
+        println("Dog constructor is running")
+    }
+}
+
+fun main() {
+    var dog = Dog()
+}
+....................................................................................
+			   Typing
+.....................................................................................
+
+How the reference variable going to bind the expressions during compile and run time.
+
+ //program to sub type
+    var dog: Dog = Dog()
+    //program to super type
+    var mydog: Animal = Dog()
+
+Polymorphism:
+.............
+
+The reference variable binds the properties and methods are verfied during compile time. whether that method belongs this object.
+
+package com.wipro.kotlin.oo.hierarchy.typing
+
+//base class
+open class Animal {
+    fun eat(){
+        println("eat")
+    }
+}
+
+//child class
+class Dog : Animal() {
+
+}
+
+fun main() {
+    //program to sub type
+    var dog: Dog = Dog()
+    dog.eat()
+    //program to super type
+    var mydog: Animal = Dog()
+    mydog.eat()
+}
+
+Runtime:
+ The runtime calls the implementation side,the object side (right side)
+ Program to super type
+ This is called runtime polymorphism.
+
+How to implement eat method in Dog class?
+  Overriding
+
+ In kotlin methods inside class not overriable by default - by default methods are final.
+ by no methods will be available for inheritance.
+
+"open" keyword must be used.
+
+in the child class we must be use 'override' keyword in order to override.
+
+package com.wipro.kotlin.oo.hierarchy.typing
+
+//base class
+open class Animal {
+    open fun eat() {
+        println("animal eat")
+    }
+}
+
+//child class
+class Dog : Animal() {
+
+    override fun eat() {
+        println("dog eats")
+    }
+}
+
+fun main() {
+    //program to sub type
+    var dog: Dog = Dog()
+    dog.eat()
+    //program to super type
+    var mydog: Animal = Dog()
+    mydog.eat()
+}
+.................................................................................
+			Program to Super Type and Sub class Methods
+..................................................................................
+package com.wipro.kotlin.oo.hierarchy.typing
+
+//base class
+open class Animal {
+    open fun eat() {
+        println("animal eat")
+    }
+}
+
+//child class
+class Dog : Animal() {
+
+    override fun eat() {
+        println("dog eats")
+    }
+
+    fun bark() {
+        println("dog is barking")
+    }
+}
+
+fun main() {
+    //program to sub type
+    var dog: Dog = Dog()
+    dog.eat()
+    //program to super type
+    var mydog: Animal = Dog()
+    mydog.eat()
+    mydog.bark()
+}
+
+here bark method does not available in the Animal type.
+
+Rules:
+ During compile time, the compiler looks left side(type), for method expression binding
+ During runtime the run time looks right side(instance side)- dynamic method dispatch.
+
+Having base class type, how to invoke dervied class method?
+
+We have solution called type casting 
+We have to cast animal type into dog type - down casting.
+
+"as" operator can be used to convert animal type to dog type.
+
+package com.wipro.kotlin.oo.hierarchy.typing
+
+//base class
+open class Animal {
+    open fun eat() {
+        println("animal eat")
+    }
+}
+
+//child class
+class Dog : Animal() {
+
+    override fun eat() {
+        println("dog eats")
+    }
+
+    fun bark() {
+        println("dog is barking")
+    }
+}
+
+fun main() {
+    //program to sub type
+    var dog: Dog = Dog()
+    dog.eat()
+    //program to super type
+    var mydog: Animal = Dog()
+    mydog.eat()
+    //mydog.bark()
+    var tmpDog = mydog as Dog
+    tmpDog.bark()
+}
+....................................................................................
+			 How to override properties
+....................................................................................
+package com.wipro.kotlin.oo.hierarchy.typing
+
+open class Shape {
+    open val x: Int = 0
+}
+
+class Square : Shape() {
+    override val x: Int = 100
+}
+
+fun main() {
+    val shape = Square()
+    println(shape.x)
+}
+...................................................................................
+		How to call super class methods and properties from child 
+...................................................................................
+package com.wipro.kotlin.oo.hierarchy.typing
+
+open class Account {
+    open fun deposit(): Int {
+        return 100
+    }
+}
+
+class SavingsAccount : Account() {
+    override fun deposit(): Int {
+        return super.deposit().plus(1000) 
+    }
+}
+
+fun main() {
+    var account:Account = SavingsAccount()
+    println(account.deposit())
+}
+.....................................................................................
+			Interfaces
+....................................................................................
+package com.wipro.kotlin.oo.hierarchy.interfaces
+
+interface Eatable {
+    //open fun eat(): String
+    fun eat(): String
+}
+
+class Dog : Eatable {
+    override fun eat(): String {
+        return "Dog eats"
+    }
+
+    fun bark() {
+        println("dog barks")
+    }
+}
+
+fun main() {
+    var dog: Eatable = Dog()
+    println(dog.eat())
+    //dog.bark()
+    var tmpDog: Dog = dog as Dog
+    tmpDog.bark()
+}
+
+..................................................................................
+
+Multiple interfaces:
+package com.wipro.kotlin.oo.hierarchy.interfaces
+
+interface Eatable {
+    //open fun eat(): String
+    fun eat(): String
+}
+interface Runnable {
+    fun run():String
+}
+
+class Dog : Eatable ,Runnable  {
+    override fun eat(): String {
+        return "Dog eats"
+    }
+
+    override fun run(): String {
+        return "Dog run"
+    }
+
+    fun bark() {
+        println("dog barks")
+    }
+}
+
+fun main() {
+    var dog: Eatable = Dog()
+    println(dog.eat())
+    //dog.bark()
+    var tmpDog: Dog = dog as Dog
+    tmpDog.bark()
+
+    var newDog = Dog()
+    println(newDog.bark())
+    println(newDog.eat())
+}
+.....................................................................................
+			Interfaces and implementations
+....................................................................................
+package com.wipro.kotlin.oo.hierarchy.interfaces
+
+interface MyInterface {
+    fun sayHello():String
+    fun doStuff(){
+        println("MyInterface")
+    }
+}
+interface FooInterface {
+    fun sayHai():String
+    fun doStuff(){
+        println("FooInterface")
+    }
+}
+class Implementator: MyInterface,FooInterface {
+    override fun sayHai(): String {
+        TODO("Not yet implemented")
+    }
+
+    override fun sayHello(): String {
+        TODO("Not yet implemented")
+    }
+
+    override fun doStuff() {
+        super<FooInterface>.doStuff()
+    }
+}
+
+fun main() {
+    var bar = Implementator()
+    bar.doStuff()
+}
+....................................................................................
+				Abstract class
+....................................................................................
+package com.wipro.kotlin.oo.hierarchy.abstractclasses
+
+open class LivingThings {
+    open fun walk() {
+        println("Animal walk")
+    }
+}
+
+//valid
+//open abstract class Animal : LivingThings() {
+//    abstract fun eat()
+//    fun saveAnimals() {
+//        println("Save Animals")
+//    }
+//}
+//valid
+abstract class Animal : LivingThings() {
+    abstract fun eat()
+    fun saveAnimals() {
+        println("Save Animals")
+    }
+}
+
+class Dog : Animal() {
+    override fun eat() {
+        println("Dog eats")
+    }
+
+    override fun walk() {
+        println("Dog walk")
+    }
+}
+
+
+fun main() {
+    val dog: Animal = Dog()
+    dog.eat()
+    dog.saveAnimals()
+    dog.walk()
+}
+..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
